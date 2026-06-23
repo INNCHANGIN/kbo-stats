@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+
+# Data backups (the live players_data.json IS committed; backups are not)
+players_data.backup-*.json
+
+# Node / frontend build (frontend/.gitignore covers the rest)
+node_modules/
+dist/
+
+# Scratch / research artifacts
+page_source.html
+player_*.json
