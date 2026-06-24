@@ -8,4 +8,10 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: './',
   plugins: [react()],
+  // A fresh build id per build. Appended to the players_data.json request so a
+  // new deploy fetches the data bypassing the browser's cached 5MB copy
+  // (GitHub Pages serves it with Cache-Control: max-age=600).
+  define: {
+    __DATA_VERSION__: JSON.stringify(Date.now().toString()),
+  },
 })

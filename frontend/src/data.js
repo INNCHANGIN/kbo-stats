@@ -5,9 +5,11 @@
 // filtering / search / lookups client-side, so the app can be hosted as a pure
 // static site (GitHub Pages) with no server.
 
+/* global __DATA_VERSION__ */
 // Resolve the JSON relative to the deployed base path (works under a GitHub
-// Pages project subpath, e.g. /kbo-stats/).
-const DATA_URL = `${import.meta.env.BASE_URL}players_data.json`;
+// Pages project subpath, e.g. /kbo-stats/). The ?v= build id busts the
+// browser cache whenever a new build is deployed.
+const DATA_URL = `${import.meta.env.BASE_URL}players_data.json?v=${__DATA_VERSION__}`;
 
 let _cache = null;
 let _pending = null;
