@@ -1,9 +1,14 @@
 import urllib.request
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 
 DATA_FILE = "players_data.json"
+
+# KBO is a Korean league and the sync runs on GitHub's UTC runners, so always
+# reckon "today" / the current season in Korea Standard Time (UTC+9). Using UTC
+# would label data with the wrong day and make the daily run skip itself.
+KST = timezone(timedelta(hours=9))
 
 def fetch_list(player_type, year):
     # Fetching up to 500 players to cover all active players in KBO
@@ -31,10 +36,11 @@ def sync_data(force=False, full=False):
     — use this to backfill past seasons that were saved by an older crawler with
     fewer stat fields.
     """
-    today = datetime.now().strftime("%Y-%m-%d")
+    now_kst = datetime.now(KST)
+    today = now_kst.strftime("%Y-%m-%d")
 
     all_players = {}
-    current_year = datetime.now().year
+    current_year = now_kst.year
     years = list(range(2010, current_year + 1))
 
     if os.path.exists(DATA_FILE):
